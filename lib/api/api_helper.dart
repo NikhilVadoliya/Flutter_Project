@@ -64,7 +64,7 @@ class ApiHelper {
         urlPath: 'signup/getRequiredData');
     final Map parsed = json.decode(response.body);
     RequireDataResponse responseModel =
-        new RequireDataResponse.fromJson(parsed);
+    new RequireDataResponse.fromJson(parsed);
     return responseModel;
   }
 
@@ -105,28 +105,28 @@ class ApiHelper {
         requestData: request.toJson());
     final Map parsed = json.decode(response.body);
     UpdateProfileResponse responseModel =
-        new UpdateProfileResponse.fromJson(parsed);
+    new UpdateProfileResponse.fromJson(parsed);
     return responseModel;
   }
 
   Future<TrainingListResponse> getTrainingList(
-      BuildContext context, int page, TrainingListRequest request) async {
+      BuildContext context, int page,bool isProgressBar, TrainingListRequest request) async {
     http.Response response = await App.api.postApi(
         context: context,
-        isProgressBar: true,
+        isProgressBar: isProgressBar,
         urlPath: 'training/list/${page}',
         requestData: request.toJson());
     final Map parsed = json.decode(response.body);
     TrainingListResponse responseModel =
-        new TrainingListResponse.fromJson(parsed);
+    new TrainingListResponse.fromJson(parsed);
     return responseModel;
   }
 
   Future<TrainingListResponse> getMyTrainingList(
-      BuildContext context, int page, TrainingListRequest request) async {
+      BuildContext context, int page,bool isProgressBar, TrainingListRequest request) async {
     http.Response response = await App.api.postApi(
         context: context,
-        isProgressBar: true,
+        isProgressBar: isProgressBar,
         urlPath: 'training/list/my/${page}',
         requestData: request.toJson());
     final Map parsed = json.decode(response.body);

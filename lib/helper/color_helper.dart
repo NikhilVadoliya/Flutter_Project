@@ -17,4 +17,18 @@ class ColorsHelper {
   static Color blue_light_120() {
     return Utils.hexToColor('#ACD5FC');
   }
+  static Color bcas_calendar() {
+    return Utils.hexToColor('#ffffc1');
+  }
+
+  static Color dgca_calendar() {
+    return Utils.hexToColor('#e4f3d5');
+  }
+  static Color iaa_calendar() {
+    return Utils.hexToColor('#ffffff');
+  }
+
+
+
+
 }

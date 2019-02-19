@@ -1,4 +1,5 @@
 import 'package:app_demo/app.dart';
+import 'package:app_demo/enum/calender.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/string.dart';
 import 'package:app_demo/helper/utils.dart';
@@ -30,7 +31,7 @@ class _MyTrainingTabState extends State<MyTrainingTab> {
     _levelOfParticipants = new List<String>();
     _listTraining = new List<TrainingData>();
     new Future.delayed(const Duration(milliseconds: 500), () {
-      getTrainingList();
+      getMyTrainingList(true);
     });
   }
 
@@ -38,12 +39,15 @@ class _MyTrainingTabState extends State<MyTrainingTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsHelper.blue_light_120(),
-      body: new ListView.builder(
-          itemCount: _listTraining.length, itemBuilder: getItemView),
+      body: RefreshIndicator(
+        onRefresh: _refreshList,
+        child: new ListView.builder(
+            itemCount: _listTraining.length, itemBuilder: getItemView),
+      ),
     );
   }
 
-  void getTrainingList() async {
+  void getMyTrainingList(bool isProgress) async {
     TrainingListRequest request;
     if (_organization.isNotEmpty &&
         _category.isNotEmpty &&
@@ -57,13 +61,15 @@ class _MyTrainingTabState extends State<MyTrainingTab> {
       request = new TrainingListRequest(null, '');
     }
 
-    _response = await App.apiHelper.getMyTrainingList(context, 1, request);
+    _response =
+    await App.apiHelper.getMyTrainingList(context, 1, isProgress, request);
     if (_response.s) {
       setState(() {
         _listTraining.clear();
         _listTraining.addAll(_response.d);
-        if(_response.d.length==0){
-          Utils.showAlertDialog(context: context, message: StringHelper.msg_no_data_available);
+        if (_response.d.length == 0) {
+          Utils.showAlertDialog(
+              context: context, message: StringHelper.msg_no_data_available);
         }
       });
     } else {
@@ -76,8 +82,8 @@ class _MyTrainingTabState extends State<MyTrainingTab> {
       onTap: () => onItemClick(context, index),
       child: Padding(
         padding: EdgeInsets.only(top: 5, right: 5, left: 5),
-        child: Container(
-          color: ColorsHelper.white(),
+        child: Card(
+          color: _getBgColor(index),
           child: Padding(
             padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10),
             child: Column(
@@ -162,7 +168,21 @@ class _MyTrainingTabState extends State<MyTrainingTab> {
 
   onItemClick(BuildContext context, int index) {}
 
-
   onFeedBackClick() {}
-}
 
+  Future<Null> _refreshList() async {
+    getMyTrainingList(false);
+  }
+
+  _getBgColor(int index) {
+    if (_listTraining[index].partner_name.toString() ==
+        CalenderName[Calender.IAA]) {
+      ColorsHelper.iaa_calendar();
+    } else if (_listTraining[index].partner_name.toString() ==
+        CalenderName[Calender.BCAS]) {
+      ColorsHelper.bcas_calendar();
+    } else {
+      ColorsHelper.dgca_calendar();
+    }
+  }
+}

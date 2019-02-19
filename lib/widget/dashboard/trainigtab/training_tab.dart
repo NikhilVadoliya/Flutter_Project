@@ -1,4 +1,5 @@
 import 'package:app_demo/app.dart';
+import 'package:app_demo/enum/calender.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/string.dart';
 import 'package:app_demo/helper/utils.dart';
@@ -6,6 +7,7 @@ import 'package:app_demo/model/data/tranining_data.dart';
 import 'package:app_demo/model/request/training_list_request.dart';
 import 'package:app_demo/model/responses/traninig_list_response.dart';
 import 'package:flutter/material.dart';
+import 'package:loadmore/loadmore.dart';
 
 class TrainingTab extends StatefulWidget {
   @override
@@ -20,6 +22,9 @@ class _TrainingState extends State<TrainingTab> {
   List<String> _trainingMonth;
   List<String> _levelOfParticipants;
   Filter _filter;
+  int count;
+  int pageNum;
+  bool isLoadMore;
 
   @override
   void initState() {
@@ -29,8 +34,11 @@ class _TrainingState extends State<TrainingTab> {
     _trainingMonth = new List<String>();
     _levelOfParticipants = new List<String>();
     _listTraining = new List<TrainingData>();
+    pageNum = 1;
+    count = 0;
+    isLoadMore = true;
     new Future.delayed(const Duration(milliseconds: 500), () {
-      getTrainingList();
+      getTrainingList(true, pageNum);
     });
   }
 
@@ -38,12 +46,23 @@ class _TrainingState extends State<TrainingTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsHelper.blue_light_120(),
-      body: new ListView.builder(
-          itemCount: _listTraining.length, itemBuilder: getItemView),
+      body: RefreshIndicator(
+        onRefresh: _refreshList,
+        child: LoadMore(
+          onLoadMore: _loadMore,
+//          isFinish: count >= 60, //do this but iaa api not provide total count of product
+          isFinish: !isLoadMore,
+          whenEmptyLoad: false,
+          delegate: DefaultLoadMoreDelegate(),
+          textBuilder: DefaultLoadMoreTextBuilder.english,
+          child: ListView.builder(
+              itemCount: _listTraining.length, itemBuilder: getItemView),
+        ),
+      ),
     );
   }
 
-  void getTrainingList() async {
+  void getTrainingList(bool isProgress, int pageNum) async {
     TrainingListRequest request;
     if (_organization.isNotEmpty &&
         _category.isNotEmpty &&
@@ -57,9 +76,11 @@ class _TrainingState extends State<TrainingTab> {
       request = new TrainingListRequest(null, '');
     }
 
-    _response = await App.apiHelper.getTrainingList(context, 1, request);
+    _response = await App.apiHelper
+        .getTrainingList(context, pageNum, isProgress, request);
     if (_response.s) {
       setState(() {
+        isLoadMore = true;
         _listTraining.clear();
         _listTraining.addAll(_response.d);
       });
@@ -73,8 +94,8 @@ class _TrainingState extends State<TrainingTab> {
       onTap: () => onItemClick(context, index),
       child: Padding(
         padding: EdgeInsets.only(top: 5, right: 5, left: 5),
-        child: Container(
-          color: ColorsHelper.white(),
+        child: Card(
+          color: _getBgColor(index),
           child: Padding(
             padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10),
             child: Column(
@@ -136,7 +157,7 @@ class _TrainingState extends State<TrainingTab> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: ()=>onFeedBackClick(),
+                  onTap: () => onFeedBackClick(),
                   child: Visibility(
                     visible: _listTraining[index].isTrainingOpen() &&
                         !_listTraining[index].is_feedback_given &&
@@ -159,7 +180,62 @@ class _TrainingState extends State<TrainingTab> {
 
   onItemClick(BuildContext context, int index) {}
 
-
   onFeedBackClick() {}
-}
 
+  Future<Null> _refreshList() async {
+    pageNum = 1;
+    count = 0;
+    getTrainingList(false, pageNum);
+  }
+
+  _getBgColor(int index) {
+    if (_listTraining[index].partner_name.toString() ==
+        CalenderName[Calender.IAA]) {
+      ColorsHelper.iaa_calendar();
+    } else if (_listTraining[index].partner_name.toString() ==
+        CalenderName[Calender.BCAS]) {
+      ColorsHelper.bcas_calendar();
+    } else {
+      ColorsHelper.dgca_calendar();
+    }
+  }
+
+  Future<bool> _loadMore() async {
+    pageNum++;
+    TrainingListRequest request;
+    if (_organization.isNotEmpty &&
+        _category.isNotEmpty &&
+        _trainingMonth.isNotEmpty &&
+        _levelOfParticipants.isNotEmpty) {
+      _filter = new Filter(
+          _organization, _category, _trainingMonth, _levelOfParticipants);
+
+      request = new TrainingListRequest(_filter, '');
+    } else {
+      request = new TrainingListRequest(null, '');
+    }
+
+    _response =
+        await App.apiHelper.getTrainingList(context, pageNum, false, request);
+    if (_response.s) {
+      if (_response.d.length != 0) {
+        setState(() {
+          _listTraining.addAll(_response.d);
+          count = _listTraining.length;
+          return true;
+        });
+      } else {
+        pageNum--;
+        setState(() {
+          isLoadMore = false;
+        });
+        return false;
+      }
+    } else {
+      pageNum--;
+      Utils.showAlertDialog(context: context, message: _response.e);
+      isLoadMore = false;
+    }
+    return true;
+  }
+}
