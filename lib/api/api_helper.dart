@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_demo/app.dart';
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/model/base_response.dart';
 import 'package:app_demo/model/request/signup_request.dart';
 import 'package:app_demo/model/request/training_list_request.dart';
@@ -25,7 +25,7 @@ class ApiHelper {
   Future<BaseResponse> generateOTP(
       BuildContext context, String mobile, String emp) async {
     BaseResponse responseModel;
-    http.Response response = await App.api.postApi(
+    http.Response response = await DataManager.of(context).api.postApi(
         context: context,
         isProgressBar: true,
         urlPath: 'otp/generate/$mobile/$emp');
@@ -36,7 +36,7 @@ class ApiHelper {
 
   Future<OTPResponse> validateOTP(
       BuildContext context, String mobile, String emp, String otp) async {
-    http.Response response = await App.api.postApi(
+    http.Response response = await DataManager.of(context).api.postApi(
         context: context,
         isProgressBar: true,
         urlPath: 'otp/validate/$mobile/$otp/$emp');
@@ -47,7 +47,7 @@ class ApiHelper {
 
   Future<BaseResponse> regenerateOtp(
       BuildContext context, String mobile) async {
-    http.Response response = await App.api.postApi(
+    http.Response response = await DataManager.of(context).api.postApi(
         context: context,
         isProgressBar: true,
         urlPath: 'otp/regenerate/$mobile');
@@ -58,19 +58,19 @@ class ApiHelper {
 
   Future<RequireDataResponse> getRequireDataForSignUp(
       BuildContext context) async {
-    http.Response response = await App.api.getApi(
+    http.Response response = await DataManager.of(context).api.getApi(
         context: context,
         isProgressBar: false,
         urlPath: 'signup/getRequiredData');
     final Map parsed = json.decode(response.body);
     RequireDataResponse responseModel =
-    new RequireDataResponse.fromJson(parsed);
+        new RequireDataResponse.fromJson(parsed);
     return responseModel;
   }
 
   Future<SignUpResponse> signUp(
       BuildContext context, SignUpRequest request) async {
-    http.Response response = await App.api.postApi(
+    http.Response response = await DataManager.of(context).api.postApi(
         context: context,
         isProgressBar: true,
         urlPath: 'signup',
@@ -81,7 +81,8 @@ class ApiHelper {
   }
 
   Future<BaseResponse> logOut(BuildContext context) async {
-    http.Response response = await App.api
+    http.Response response = await DataManager.of(context)
+        .api
         .postApi(context: context, isProgressBar: true, urlPath: 'logout');
     final Map parsed = json.decode(response.body);
     BaseResponse responseModel = new BaseResponse.fromJson(parsed);
@@ -89,7 +90,7 @@ class ApiHelper {
   }
 
   Future<UserResponse> getUserProfile(BuildContext context) async {
-    http.Response response = await App.api.getApi(
+    http.Response response = await DataManager.of(context).api.getApi(
         context: context, isProgressBar: true, urlPath: 'attendee/getProfile');
     final Map parsed = json.decode(response.body);
     UserResponse responseModel = new UserResponse.fromJson(parsed);
@@ -98,40 +99,40 @@ class ApiHelper {
 
   Future<UpdateProfileResponse> updateProfile(
       BuildContext context, UpdateProfileRequest request) async {
-    http.Response response = await App.api.postApi(
+    http.Response response = await DataManager.of(context).api.postApi(
         context: context,
         isProgressBar: true,
         urlPath: 'attendee/updateProfile',
         requestData: request.toJson());
     final Map parsed = json.decode(response.body);
     UpdateProfileResponse responseModel =
-    new UpdateProfileResponse.fromJson(parsed);
+        new UpdateProfileResponse.fromJson(parsed);
     return responseModel;
   }
 
-  Future<TrainingListResponse> getTrainingList(
-      BuildContext context, int page,bool isProgressBar, TrainingListRequest request) async {
-    http.Response response = await App.api.postApi(
+  Future<TrainingListResponse> getTrainingList(BuildContext context, int page,
+      bool isProgressBar, TrainingListRequest request) async {
+    http.Response response = await DataManager.of(context).api.postApi(
         context: context,
         isProgressBar: isProgressBar,
         urlPath: 'training/list/${page}',
         requestData: request.toJson());
     final Map parsed = json.decode(response.body);
     TrainingListResponse responseModel =
-    new TrainingListResponse.fromJson(parsed);
+        new TrainingListResponse.fromJson(parsed);
     return responseModel;
   }
 
-  Future<TrainingListResponse> getMyTrainingList(
-      BuildContext context, int page,bool isProgressBar, TrainingListRequest request) async {
-    http.Response response = await App.api.postApi(
+  Future<TrainingListResponse> getMyTrainingList(BuildContext context, int page,
+      bool isProgressBar, TrainingListRequest request) async {
+    http.Response response = await DataManager.of(context).api.postApi(
         context: context,
         isProgressBar: isProgressBar,
         urlPath: 'training/list/my/${page}',
         requestData: request.toJson());
     final Map parsed = json.decode(response.body);
     TrainingListResponse responseModel =
-    new TrainingListResponse.fromJson(parsed);
+        new TrainingListResponse.fromJson(parsed);
     return responseModel;
   }
 }

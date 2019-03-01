@@ -1,3 +1,6 @@
+import 'package:app_demo/api/api.dart';
+import 'package:app_demo/api/api_helper.dart';
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/helper/string.dart';
 import 'package:app_demo/widget/splash.dart';
 import 'package:flutter/material.dart';
@@ -23,15 +26,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: StringHelper.app_name_full,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primarySwatch: appColor(),
-          scaffoldBackgroundColor: Colors.white,
-          buttonColor: Colors.amber,
-          cursorColor: Colors.amber),
-      home: SplashScreen(),
+    return DataManager(
+      api: new Api(),
+      apiHelper: new ApiHelper(),
+      child: MaterialApp(
+        title: StringHelper.app_name_full,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            primarySwatch: appColor(),
+            scaffoldBackgroundColor: Colors.white,
+            buttonColor: Colors.amber,
+            cursorColor: Colors.amber),
+        home: SplashScreen(),
+      ),
     );
   }
 }

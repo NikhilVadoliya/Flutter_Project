@@ -1,4 +1,5 @@
-import 'package:app_demo/app.dart';
+
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/enum/otp_validation_is_from.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/progressbar_helper.dart';
@@ -120,29 +121,26 @@ class _OTPVerificationState extends State<OTPVerification> {
   }
 
   void apiCallValidateOTP() async {
-
-     OTPResponse response = await App.apiHelper
+    OTPResponse response = await DataManager.of(context)
+        .apiHelper
         .validateOTP(context, mobileNum, empCode, _otpController.text);
-
-
     if (response.s) {
       Navigator.of(context).push(new SlideLeftRoute(
           widget: new SignUpForm(mobileNum, response.d.employee)));
     } else {
-
-      Utils.showAlertDialog(context: context,message: response.e);
+      Utils.showAlertDialog(context: context, message: response.e);
     }
   }
 
   void resendOTPPressed() async {
-
-    BaseResponse response = await App.apiHelper.regenerateOtp(context,mobileNum);
-
+    BaseResponse response = await DataManager.of(context)
+        .apiHelper
+        .regenerateOtp(context, mobileNum);
     if (response.s) {
-      Utils.showAlertDialog(context: context,message: StringHelper.msg_otp_resent_successfully);
+      Utils.showAlertDialog(
+          context: context, message: StringHelper.msg_otp_resent_successfully);
     } else {
-      Utils.showAlertDialog(context: context,message: response.e);
-
+      Utils.showAlertDialog(context: context, message: response.e);
     }
   }
 }

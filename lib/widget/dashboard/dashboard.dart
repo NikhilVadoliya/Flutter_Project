@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:app_demo/app.dart';
+
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/shareprefrenceshelper.dart';
 import 'package:app_demo/helper/string.dart';
@@ -43,7 +44,7 @@ class _DashBoardState extends State<DashBoard>
     trainingWidget.add(IconButton(
         icon: Icon(Icons.search), onPressed: () => _onSearchClick()));
 
-     profileWidget.add(
+    profileWidget.add(
         IconButton(icon: Icon(Icons.create), onPressed: () => _onEditClick()));
   }
 
@@ -163,7 +164,7 @@ class _DashBoardState extends State<DashBoard>
   @override
   void onPosClick() {
     Navigator.pop(context);
-    App.apiHelper.logOut(context).then((response) {
+    DataManager.of(context).apiHelper.logOut(context).then((response) {
       if (response.s) {
         SharePreferencesHelper.getInstant().clearPreference();
         Navigator.pushAndRemoveUntil(

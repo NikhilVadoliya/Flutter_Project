@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app_demo/app.dart';
 import 'package:app_demo/custom_fonts_icons.dart';
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/progressbar_helper.dart';
 import 'package:app_demo/helper/shareprefrenceshelper.dart';
@@ -32,7 +32,6 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     savePreference();
   }
@@ -177,14 +176,13 @@ class _LoginState extends State<Login> {
 
   _onLoginApiCall() async {
     ProgressBar.progressBarShow(context);
-
-    http.Response response = await App.api.login(
+    http.Response response = await DataManager.of(context).api.login(
         context,
         'login',
         LoginRequest(
                 _mobileController.text.trim(), _passwordController.text.trim())
             .toJson());
-    LoginR data = App.apiHelper.login(response);
+    LoginR data = DataManager.of(context).apiHelper.login(response);
 
     //hide loader
     Navigator.pop(context);

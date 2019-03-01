@@ -1,5 +1,6 @@
-import 'package:app_demo/app.dart';
+
 import 'package:app_demo/custom_fonts_icons.dart';
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/string.dart';
 import 'package:app_demo/helper/utils.dart';
@@ -178,7 +179,6 @@ class _SignUpFormState extends State<SignUpForm> {
             decoration: _textInputDecoration(CustomFonts.phonelink_lock,
                 StringHelper.label_confirm_password),
           ),
-
           DropdownButtonFormField<String>(
             decoration: InputDecoration(
                 prefixIcon: Icon(Icons.place, color: ColorsHelper.orange())),
@@ -385,8 +385,9 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   void getRequireData() async {
+
     RequireDataResponse response =
-        await App.apiHelper.getRequireDataForSignUp(context);
+        await DataManager.of(context).apiHelper.getRequireDataForSignUp(context);
     if (response.s) {
       setState(() {
         listRegion.addAll(response.d.regions);
@@ -446,7 +447,8 @@ class _SignUpFormState extends State<SignUpForm> {
         regionId,
         selectedDate);
 
-    SignUpResponse response = await App.apiHelper.signUp(context, request);
+    SignUpResponse response =
+        await DataManager.of(context).apiHelper.signUp(context, request);
 
     if (response.s) {
       Navigator.of(context)

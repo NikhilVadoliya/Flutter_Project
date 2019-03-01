@@ -1,5 +1,6 @@
-import 'package:app_demo/app.dart';
+
 import 'package:app_demo/custom_fonts_icons.dart';
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/enum/otp_validation_is_from.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/string.dart';
@@ -118,23 +119,21 @@ class _SignUpState extends State<SignUp> {
   }
 
   void _sendOTPPressed() {
-
     if (_formKey.currentState.validate()) {
       _generateOTPApi();
     }
   }
 
   void _generateOTPApi() async {
-    BaseResponse data = await App.apiHelper
+    BaseResponse data = await DataManager.of(context)
+        .apiHelper
         .generateOTP(context, _mobileController.text, _empCodeController.text);
     if (data.s) {
       Navigator.of(context).push(new SlideLeftRoute(
           widget: new OTPVerification(_mobileController.text,
               _empCodeController.text, OTPValidationIsFrom.SIGN_UP.index)));
     } else {
-
-      Utils.showAlertDialog(context: context,message: data.e);
-
+      Utils.showAlertDialog(context: context, message: data.e);
     }
   }
 }

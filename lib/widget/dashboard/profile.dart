@@ -1,5 +1,6 @@
-import 'package:app_demo/app.dart';
+
 import 'package:app_demo/custom_fonts_icons.dart';
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/string.dart';
 import 'package:app_demo/helper/utils.dart';
@@ -302,7 +303,6 @@ class _ProfileState extends State<Profile> implements DialogCallBack {
               ),
             ),
           ),
-
         ])),
       ),
     );
@@ -327,7 +327,7 @@ class _ProfileState extends State<Profile> implements DialogCallBack {
   }
 
   void getUserName() async {
-    response = await App.apiHelper.getUserProfile(context);
+    response = await DataManager.of(context).apiHelper.getUserProfile(context);
     if (response.s) {
       setState(() {
         if (response.d.attendee != null) {
@@ -482,8 +482,7 @@ class _ProfileState extends State<Profile> implements DialogCallBack {
         radioGender);
 
     UpdateProfileResponse updateProfileResponse =
-        await App.apiHelper.updateProfile(context, request);
-
+        await DataManager.of(context).apiHelper.updateProfile(context, request);
     if (updateProfileResponse.s) {
       Utils.showAlertDialog(
           context: context, message: StringHelper.msg_profile_updated);
@@ -508,7 +507,5 @@ class _ProfileState extends State<Profile> implements DialogCallBack {
     apiCall();
   }
 
-  static void _onEditClick() {
-
-  }
+  static void _onEditClick() {}
 }

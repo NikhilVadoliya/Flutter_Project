@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_demo/helper/string.dart';
-import 'package:app_demo/custom_fonts_icons.dart';
-import 'package:app_demo/validator/common_validator.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override

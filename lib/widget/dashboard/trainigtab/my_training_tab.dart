@@ -1,4 +1,5 @@
-import 'package:app_demo/app.dart';
+
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/enum/calender.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/string.dart';
@@ -61,8 +62,10 @@ class _MyTrainingTabState extends State<MyTrainingTab> {
       request = new TrainingListRequest(null, '');
     }
 
-    _response =
-    await App.apiHelper.getMyTrainingList(context, 1, isProgress, request);
+    _response = await DataManager.of(context)
+        .apiHelper
+        .getMyTrainingList(context, 1, isProgress, request);
+
     if (_response.s) {
       setState(() {
         _listTraining.clear();

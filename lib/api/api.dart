@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app_demo/app.dart';
 import 'package:app_demo/helper/const.dart';
 import 'package:app_demo/helper/progressbar_helper.dart';
 import 'package:app_demo/helper/shareprefrenceshelper.dart';
@@ -29,7 +28,7 @@ class Api {
     print('response body : ${response.body}');
 
     if (response == null) {
-      Utils.showAlertDialog(context: App.context, message: 0);
+      Utils.showAlertDialog(context: context, message: 0);
       return null;
     }
     if (response.statusCode == 200) {
@@ -38,12 +37,11 @@ class Api {
       Navigator.pop(context);
 
       Utils.showAlertDialog(
-          context: App.context,
-          message: StringHelper.error_msg_internal_server);
+          context: context, message: StringHelper.error_msg_internal_server);
       return null;
     } else {
       Navigator.pop(context);
-      Utils.showAlertDialog(context: App.context, message: 0);
+      Utils.showAlertDialog(context: context, message: 0);
       return null;
     }
   }
@@ -87,11 +85,11 @@ class Api {
         return response;
       } else if (response.statusCode == 500) {
         Utils.showAlertDialog(
-            context: App.context,
+            context: context,
             message: StringHelper.error_msg_internal_server);
         return null;
       } else {
-        Utils.showAlertDialog(context:context, message: 0);
+        Utils.showAlertDialog(context: context, message: 0);
         return null;
       }
     } else {
@@ -125,15 +123,14 @@ class Api {
         ProgressBar.progressBarHide(context);
       }
       if (response == null) {
-        Utils.showAlertDialog(context:context, message: 0);
+        Utils.showAlertDialog(context: context, message: 0);
         return null;
       }
       if (response.statusCode == 200) {
         return response;
       } else if (response.statusCode == 500) {
         Utils.showAlertDialog(
-            context: context,
-            message: StringHelper.error_msg_internal_server);
+            context: context, message: StringHelper.error_msg_internal_server);
 
         return null;
       } else {

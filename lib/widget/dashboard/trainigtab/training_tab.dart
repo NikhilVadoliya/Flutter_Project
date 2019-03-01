@@ -1,4 +1,5 @@
-import 'package:app_demo/app.dart';
+
+import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/enum/calender.dart';
 import 'package:app_demo/helper/color_helper.dart';
 import 'package:app_demo/helper/string.dart';
@@ -76,7 +77,8 @@ class _TrainingState extends State<TrainingTab> {
       request = new TrainingListRequest(null, '');
     }
 
-    _response = await App.apiHelper
+    _response = await DataManager.of(context)
+        .apiHelper
         .getTrainingList(context, pageNum, isProgress, request);
     if (_response.s) {
       setState(() {
@@ -215,8 +217,10 @@ class _TrainingState extends State<TrainingTab> {
       request = new TrainingListRequest(null, '');
     }
 
-    _response =
-        await App.apiHelper.getTrainingList(context, pageNum, false, request);
+    _response = await DataManager.of(context)
+        .apiHelper
+        .getTrainingList(context, pageNum, false, request);
+
     if (_response.s) {
       if (_response.d.length != 0) {
         setState(() {
