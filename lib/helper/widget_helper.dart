@@ -1,4 +1,5 @@
 import 'package:app_demo/helper/color_helper.dart';
+import 'package:app_demo/helper/image_assets.dart';
 import 'package:app_demo/helper/string.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class WidgetHelper{
     return new Column(
       children: <Widget>[
         new Image.asset(
-          'assets/images/iaa_logo.png',
+          ImageAssets.iaa_logo,
           fit: BoxFit.cover,
         ),
         Padding(

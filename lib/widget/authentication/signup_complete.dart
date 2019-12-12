@@ -22,7 +22,7 @@ class SignUpComplete extends StatelessWidget {
                     Text(
                       StringHelper.label_awesome,
                       style: TextStyle(
-                          color: ColorsHelper.blue_light(),
+                          color: ColorsHelper.blueLight(),
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
@@ -30,7 +30,7 @@ class SignUpComplete extends StatelessWidget {
                     Text(
                       StringHelper.label_sign_up_complete,
                       style: TextStyle(
-                          color: ColorsHelper.blue_light(), fontSize: 20),
+                          color: ColorsHelper.blueLight(), fontSize: 20),
                     ),
                     Padding(padding: EdgeInsets.only(top: 10)),
                     Image(
@@ -49,7 +49,7 @@ class SignUpComplete extends StatelessWidget {
                         StringHelper.label_sign_up_complete_24,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: ColorsHelper.blue_light(),
+                          color: ColorsHelper.blueLight(),
                           fontSize: 15,
                         ),
                       ),

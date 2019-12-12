@@ -39,7 +39,7 @@ class _MyTrainingTabState extends State<MyTrainingTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsHelper.blue_light_120(),
+      backgroundColor: ColorsHelper.blueLight120(),
       body: RefreshIndicator(
         onRefresh: _refreshList,
         child: new ListView.builder(
@@ -180,12 +180,12 @@ class _MyTrainingTabState extends State<MyTrainingTab> {
   _getBgColor(int index) {
     if (_listTraining[index].partner_name.toString() ==
         CalenderName[Calender.IAA]) {
-      ColorsHelper.iaa_calendar();
+      ColorsHelper.white();
     } else if (_listTraining[index].partner_name.toString() ==
         CalenderName[Calender.BCAS]) {
-      ColorsHelper.bcas_calendar();
+      ColorsHelper.bcasCalendar();
     } else {
-      ColorsHelper.dgca_calendar();
+      ColorsHelper.dgcaCalendar();
     }
   }
 }

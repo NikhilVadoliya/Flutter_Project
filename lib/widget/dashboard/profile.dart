@@ -2,6 +2,7 @@
 import 'package:app_demo/custom_fonts_icons.dart';
 import 'package:app_demo/data_manager.dart';
 import 'package:app_demo/helper/color_helper.dart';
+import 'package:app_demo/helper/image_assets.dart';
 import 'package:app_demo/helper/string.dart';
 import 'package:app_demo/helper/utils.dart';
 import 'package:app_demo/interfaces/dialog_callback.dart';
@@ -170,7 +171,7 @@ class _ProfileState extends State<Profile> implements DialogCallBack {
                 Row(
                   children: <Widget>[
                     new Image.asset(
-                      'assets/images/iaa_logo.png',
+                      ImageAssets.iaa_logo,
                       fit: BoxFit.fill,
                       height: 20,
                       width: 20,
@@ -205,7 +206,7 @@ class _ProfileState extends State<Profile> implements DialogCallBack {
             margin: EdgeInsets.only(top: 10),
             child: Divider(
               height: 1.0,
-              color: ColorsHelper.blue_light(),
+              color: ColorsHelper.blueLight(),
             ),
           ),
           TextFormField(
@@ -254,7 +255,7 @@ class _ProfileState extends State<Profile> implements DialogCallBack {
             child: Row(
               children: <Widget>[
                 new Image.asset(
-                  'assets/images/iaa_logo.png',
+                  ImageAssets.iaa_logo,
                   fit: BoxFit.fill,
                   height: 20,
                   width: 20,

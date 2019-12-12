@@ -122,7 +122,7 @@ class _LoginState extends State<Login> {
                     new FlatButton(
                       onPressed: _passwordReset,
                       child: new Text('Forgot Password?'),
-                      textColor: ColorsHelper.blue_light(),
+                      textColor: ColorsHelper.blueLight(),
                     )
                   ],
                 ),

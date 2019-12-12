@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_demo/helper/color_helper.dart';
+import 'package:app_demo/helper/image_assets.dart';
 import 'package:app_demo/helper/shareprefrenceshelper.dart';
 import 'package:app_demo/helper/string.dart';
 import 'package:app_demo/pageRouter/slide_page_router.dart';
@@ -47,7 +48,7 @@ class Splash extends State<SplashScreen> with SingleTickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             new Image.asset(
-              'assets/images/iaa_logo.png',
+              ImageAssets.iaa_logo,
               fit: BoxFit.cover,
             ),
             Padding(

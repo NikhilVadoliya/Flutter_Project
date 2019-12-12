@@ -1,4 +1,5 @@
 import 'package:app_demo/helper/color_helper.dart';
+import 'package:app_demo/helper/image_assets.dart';
 import 'package:app_demo/helper/string.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
@@ -35,7 +36,7 @@ class ContactUsTab extends StatelessWidget {
                 color: ColorsHelper.orange(),
                 padding: EdgeInsets.all(2),
                 child: Image.asset(
-                  'assets/images/iaa_map.png',
+                  ImageAssets.iaa_map,
                   fit: BoxFit.cover,
                 ),
               ),
